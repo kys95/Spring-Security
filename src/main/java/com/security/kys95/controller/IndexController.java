@@ -1,7 +1,7 @@
 package com.security.kys95.controller;
 
 import com.security.kys95.model.User;
-import com.security.kys95.repository.UserRepostiory;
+import com.security.kys95.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class IndexController {
 
     @Autowired
-    private UserRepostiory userRepostiory;
+    private UserRepository userRepostiory;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
