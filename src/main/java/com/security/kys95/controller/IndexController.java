@@ -1,5 +1,9 @@
 package com.security.kys95.controller;
 
+import com.security.kys95.model.User;
+import com.security.kys95.repository.UserRepostiory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -7,6 +11,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller //return view
 public class IndexController {
+
+    @Autowired
+    private UserRepostiory userRepostiory;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @GetMapping({"", "/"})  //localhost:8080/ or localhost:8080
     public String index(){
@@ -28,19 +38,27 @@ public class IndexController {
         return "admin";
     }
 
-    @GetMapping("/login")
-    public @ResponseBody String login(){
-        return "login";
+    @GetMapping("/loginForm")
+    public String loginForm(){
+        return "loginForm";
     }
 
-    @GetMapping("/join")
-    public @ResponseBody String join(){
-        return "join";
+    @GetMapping("/joinForm")
+    public  String joinForm(){
+        return "joinForm";
     }
 
-    @GetMapping("/joinProc")
-    public @ResponseBody String joinProc(){
-        return "join success";
+    @PostMapping("/join")
+    public String join(User user){
+        System.out.println(user);
+        user.setRole("ROLE_USER");
+        String rawPassword = user.getPassword();
+        String encPassword = bCryptPasswordEncoder.encode(rawPassword);
+        user.setPassword(encPassword);
+
+        userRepostiory.save(user);
+
+        return "redirect:/loginForm";
     }
 
 }
