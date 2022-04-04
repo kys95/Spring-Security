@@ -1,4 +1,4 @@
-package com.security.kys95.config;
+package com.security.kys95.model.config;
 
 import org.springframework.boot.web.servlet.view.MustacheViewResolver;
 import org.springframework.context.annotation.Configuration;
