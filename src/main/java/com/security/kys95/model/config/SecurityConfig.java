@@ -1,4 +1,4 @@
-package com.security.kys95.config;
+package com.security.kys95.model.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +27,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
-                .loginPage("/loginForm");
+                .loginPage("/loginForm")
+                .loginProcessingUrl("/login")   //login주소가 호출이 되면 시큐리티가 대신 로그인 진행
+                .defaultSuccessUrl("/");
 
     }
 }
