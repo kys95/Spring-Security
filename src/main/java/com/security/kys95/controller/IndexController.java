@@ -3,6 +3,8 @@ package com.security.kys95.controller;
 import com.security.kys95.model.User;
 import com.security.kys95.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,6 +61,18 @@ public class IndexController {
         userRepostiory.save(user);
 
         return "redirect:/loginForm";
+    }
+
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/privateInfo")
+    public @ResponseBody String privateInfo(){
+        return "private info";
+    }
+
+    @PreAuthorize("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
+    @GetMapping("/data")
+    public @ResponseBody String data(){
+        return "data";
     }
 
 }
