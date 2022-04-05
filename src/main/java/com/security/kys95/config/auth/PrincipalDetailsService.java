@@ -16,12 +16,12 @@ import org.springframework.stereotype.Service;
 public class PrincipalDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserRepository userRepostiory;
+    private UserRepository userRepository;
 
     //security session(내부 Authentication(내부 UserDetails))
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User userEntity = userRepostiory.findByUsername(username);
+        User userEntity = userRepository.findByUsername(username);
         if(userEntity != null){
             return new PrincipalDetails(userEntity);
         }
