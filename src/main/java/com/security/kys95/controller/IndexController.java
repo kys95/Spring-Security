@@ -1,10 +1,13 @@
 package com.security.kys95.controller;
 
+import com.security.kys95.config.auth.PrincipalDetails;
+import com.security.kys95.dto.UserInfoDto;
 import com.security.kys95.model.User;
 import com.security.kys95.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class IndexController {
 
     @Autowired
-    private UserRepository userRepostiory;
+    private UserRepository userRepository;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -25,10 +28,6 @@ public class IndexController {
         return "index";
     }
 
-    @GetMapping("/user")
-    public @ResponseBody String user(){
-        return "user";
-    }
 
     @GetMapping("/manager")
     public @ResponseBody String manager(){
@@ -58,9 +57,21 @@ public class IndexController {
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
         user.setPassword(encPassword);
 
-        userRepostiory.save(user);
+        userRepository.save(user);
 
         return "redirect:/loginForm";
+    }
+
+    @GetMapping("/user")
+    public @ResponseBody UserInfoDto user(@AuthenticationPrincipal PrincipalDetails principalDetails){
+        UserInfoDto userInfoDto = UserInfoDto.builder()
+                .id(principalDetails.getUser().getId())
+                .email(principalDetails.getUser().getEmail())
+                .role(principalDetails.getUser().getRole())
+                .providerId(principalDetails.getUser().getProviderId())
+                .createDate(principalDetails.getUser().getCreateDate())
+                .build();
+        return userInfoDto;
     }
 
     @Secured("ROLE_ADMIN")
