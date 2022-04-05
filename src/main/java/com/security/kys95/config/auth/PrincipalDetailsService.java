@@ -1,4 +1,4 @@
-package com.security.kys95.model.config.auth;
+package com.security.kys95.config.auth;
 
 import com.security.kys95.model.User;
 import com.security.kys95.repository.UserRepository;
