@@ -2,6 +2,10 @@ package com.security.kys95.config.oauth;
 
 import com.security.kys95.config.auth.PrincipalDetails;
 import com.security.kys95.model.User;
+import com.security.kys95.config.oauth.provider.FacebookUserInfo;
+import com.security.kys95.config.oauth.provider.GoogleUserInfo;
+import com.security.kys95.config.oauth.provider.NaverUserInfo;
+import com.security.kys95.config.oauth.provider.OAuth2UserInfo;
 import com.security.kys95.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,6 +14,8 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
@@ -25,11 +31,21 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
 
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
-        String provider = userRequest.getClientRegistration().getClientId();
-        String providerId = oAuth2User.getAttribute("sub");
+        OAuth2UserInfo userInfo = null;
+        if(userRequest.getClientRegistration().getRegistrationId().equals("google")){
+            userInfo = new GoogleUserInfo(oAuth2User.getAttributes());
+        }else if(userRequest.getClientRegistration().getRegistrationId().equals("facebook")){
+            userInfo = new FacebookUserInfo(oAuth2User.getAttributes());
+        }else if(userRequest.getClientRegistration().getRegistrationId().equals("naver")){
+            userInfo = new NaverUserInfo((Map) oAuth2User.getAttributes().get("response"));
+        }
+
+
+        String provider = userInfo.getProvider();
+        String providerId = userInfo.getProviderId();
         String username = provider + "_" + providerId;
         String password = bCryptPasswordEncoder.encode("kys95");
-        String email = oAuth2User.getAttribute("email");
+        String email =  userInfo.getEmail();
         String role = "ROLE_USER";
 
         User userEntity = userRepository.findByUsername("username");
@@ -42,6 +58,7 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
                     .email(email)
                     .role(role)
                     .build();
+            userRepository.save(userEntity);
         }
 
         return new PrincipalDetails(userEntity, oAuth2User.getAttributes());
