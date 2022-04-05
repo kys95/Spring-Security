@@ -1,6 +1,6 @@
-package com.security.kys95.model.config;
+package com.security.kys95.config;
 
-import com.security.kys95.model.config.oauth.PrincipalOauth2UserService;
+import com.security.kys95.config.oauth.PrincipalOAuth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,14 +19,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)  //@Secured 활성화, @PreAuthorize & @PostAuthorize 활성화
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private PrincipalOauth2UserService principalOauth2UserService;
+    PrincipalOAuth2UserService principalOAuth2UserService;
 
-    //해당 메서드의 return되는 오브젝트를 IoC로 등록해줌
-   @Bean
+    @Bean
     public BCryptPasswordEncoder encodePwd(){
         return new BCryptPasswordEncoder();
     }
@@ -42,13 +41,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/loginForm")
-                .loginProcessingUrl("/login")   //login주소가 호출이 되면 시큐리티가 대신 로그인 진행
+                .loginProcessingUrl("/login")
                 .defaultSuccessUrl("/")
                 .and()
                 .oauth2Login()
-                .loginPage("/loginForm") //구글 로그인 완료후 후처리 필요.(access token,사용자 프로필 정보 받음)
+                .loginPage("/loginForm")
                 .userInfoEndpoint()
-                .userService(principalOauth2UserService);
-
+                .userService(principalOAuth2UserService);
     }
 }
