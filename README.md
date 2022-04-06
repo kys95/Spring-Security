@@ -5,7 +5,7 @@
 
 ## 프로젝트 구성
 
-![1](/src/main/resources/static/202204-1.png)<br><br>
+![1](/src/main/resources/static/202204-1.PNG)<br><br>
 
 ### Class
 ![2](/src/main/resources/static/202204-2.png)<br>
@@ -14,7 +14,7 @@
 
 ## Login Page
 
-![3](/src/main/resources/static/202204-3.png)<br>
+![3](/src/main/resources/static/202204-3.PNG)<br>
 
 - - -
 
@@ -25,7 +25,7 @@
 
 
 ### DB(암호화 해시 함수)
-![5](/src/main/resources/static/202204-5.png)<br>
+![5](/src/main/resources/static/202204-5.PNG)<br>
 
 - - -
 
@@ -46,7 +46,7 @@
 - - -
 
 ## Facebook OAuth 로그인 & 조회
-![7](/src/main/resources/static/201026-7.gif)<br>
+![7](/src/main/resources/static/202204-7.gif)<br>
 
 ### Oauth User Data
 
@@ -63,7 +63,7 @@
 - - -
 
 ## Naver 로그인 & 조회
-![8](/src/main/resources/static/201026-8.gif)<br>
+![8](/src/main/resources/static/202204-8.gif)<br>
 
 ### Oauth User Data
 ```json
