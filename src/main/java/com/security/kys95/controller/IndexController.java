@@ -68,7 +68,7 @@ public class IndexController {
                 .id(principalDetails.getUser().getId())
                 .email(principalDetails.getUser().getEmail())
                 .role(principalDetails.getUser().getRole())
-                .providerId(principalDetails.getUser().getProviderId())
+                .provider(principalDetails.getUser().getProvider())
                 .createDate(principalDetails.getUser().getCreateDate())
                 .build();
         return userInfoDto;
