@@ -11,15 +11,15 @@ public class UserInfoDto {
     private int id;
     private String email;
     private String role;
-    private String providerId;
+    private String provider;
     private Timestamp createDate;
 
     @Builder
-    UserInfoDto(int id, String email, String role, String providerId, Timestamp createDate){
+    UserInfoDto(int id, String email, String role, String provider, Timestamp createDate){
         this.id = id;
         this.email = email;
         this.role = role;
-        this.providerId = providerId;
+        this.provider = provider;
         this.createDate = createDate;
     }
 }
